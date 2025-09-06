@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\RolRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use PDF; // Asegúrate de tener la librería instalada y configurada
 
 class RolController extends Controller
 {
@@ -80,5 +81,39 @@ class RolController extends Controller
 
         return Redirect::route('rols.index')
             ->with('success', 'Rol deleted successfully');
+    }
+
+    /**
+     * Muestra la previsualización del PDF de un rol.
+     *
+     * @param Rol $rol El modelo Rol inyectado por el enrutamiento.
+     * @return \Illuminate\Http\Response
+     */
+    public function previewPdf(Rol $rol)
+    {
+        // Se carga la vista con los datos del rol.
+        //PDF::loadView se usa para cargar la vista que se convertirá en PDF.
+        //compact('rol') pasa el modelo rol a la vista.
+        $pdf = PDF::loadView('pdf.pdf_rol', compact('rol'));
+
+        // Retorna el PDF para su previsualización en el navegador.
+        //$pdf->stream() envía el PDF al navegador para que se muestre en línea.
+        return $pdf->stream('rol_' . $rol->id . '.pdf');
+    }
+
+    /**
+     * Descarga el PDF de un rol.
+     *
+     * @param Rol $rol El modelo Rol inyectado por el enrutamiento.
+     * @return \Illuminate\Http\Response
+     */
+    public function downloadPdf(Rol $rol)
+    {
+        // Se carga la vista con los datos del rol.
+        $pdf = PDF::loadView('pdf.pdf_rol', compact('rol'));
+
+        // Retorna el PDF para forzar su descarga.
+        // $pdf->download() envía el PDF al navegador con una cabecera que fuerza la descarga.
+        return $pdf->download('rol_' . $rol->id . '.pdf');
     }
 }

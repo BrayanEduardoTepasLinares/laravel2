@@ -52,6 +52,8 @@
 
                                             <td>
                                                 <form action="{{ route('rols.destroy', $rol->id) }}" method="POST">
+                                                    <a href="{{ route('rols.pdf.preview', $rol->id) }}" target="_blank">Previsualizar PDF</a>
+                                                    <a href="{{ route('rols.pdf.download', $rol->id) }}">Descargar PDF</a>
                                                     <a class="btn btn-sm btn-primary " href="{{ route('rols.show', $rol->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Mostrar') }}</a>
                                                     <a class="btn btn-sm btn-success" href="{{ route('rols.edit', $rol->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
                                                     @csrf
